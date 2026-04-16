@@ -5,3 +5,5 @@ export type Team = {
 }
 
 export type TimeOption = 30 | 60 | 90
+
+export type StepId = 'time' | 'teams' | 'ready'

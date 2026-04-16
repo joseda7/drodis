@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { HomePage } from '@/pages/Home/HomePage'
+import { RoundSetupPage } from '@/pages/RoundSetup/RoundSetupPage'
 import { NewRoundPage } from '@/pages/NewRound/NewRoundPage'
-import { WordSelectionPage } from '@/pages/WordSelection/WordSelectionPage'
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
-  { path: '/nueva-partida', element: <NewRoundPage /> },
-  { path: '/seleccionar-palabra', element: <WordSelectionPage /> },
+  { path: '/:roundId/setup', element: <RoundSetupPage /> },
+  { path: '/:roundId', element: <NewRoundPage /> },
 ])
 
 export default function App() {

@@ -40,10 +40,8 @@ export function StepTime({ selected, onSelect, onNext }: Props) {
         ))}
       </div>
 
-      <Button
-        className="h-12 w-full text-base font-semibold"
-        onClick={onNext}
-      >
+      {/* Navigation — first step, no back */}
+      <Button className="h-12 w-full text-base font-semibold" onClick={onNext}>
         Siguiente
       </Button>
     </div>

@@ -2,8 +2,17 @@ import { useNavigate } from 'react-router-dom'
 import { Pencil } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+function generateRoundId(): string {
+  return Math.floor(1000 + Math.random() * 9000).toString()
+}
+
 export function HomePage() {
   const navigate = useNavigate()
+
+  function startNewRound() {
+    const roundId = generateRoundId()
+    navigate(`/${roundId}/setup`)
+  }
 
   return (
     <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-background">
@@ -27,7 +36,7 @@ export function HomePage() {
         <div className="flex w-full flex-col gap-3">
           <Button
             className="h-12 w-full text-base font-semibold"
-            onClick={() => navigate('/nueva-partida')}
+            onClick={startNewRound}
           >
             Nueva partida
           </Button>

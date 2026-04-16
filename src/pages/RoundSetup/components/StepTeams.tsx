@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { Check, Pencil } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -8,12 +9,12 @@ import type { Team } from '../types'
 type Props = {
   teams: Team[]
   onChange: (teams: Team[]) => void
+  onBack?: () => void
   onNext: () => void
 }
 
-export function StepTeams({ teams, onChange, onNext }: Props) {
+export function StepTeams({ teams, onChange, onBack, onNext }: Props) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
-
   const isAnyEditing = teams.some((t) => t.isEditing)
 
   function startEdit(idx: number) {
@@ -22,7 +23,6 @@ export function StepTeams({ teams, onChange, onNext }: Props) {
         i === idx ? { ...t, isEditing: true, draftName: t.name } : t
       )
     )
-    // Focus happens via autoFocus on the Input
   }
 
   function confirmEdit(idx: number) {
@@ -97,13 +97,25 @@ export function StepTeams({ teams, onChange, onNext }: Props) {
         ))}
       </div>
 
-      <Button
-        className="h-12 w-full text-base font-semibold"
-        onClick={onNext}
-        disabled={isAnyEditing}
-      >
-        Siguiente
-      </Button>
+      {/* Navigation */}
+      <div className="flex gap-3">
+        {onBack && (
+          <Button
+            variant="outline"
+            className="h-12 flex-1"
+            onClick={onBack}
+          >
+            Atrás
+          </Button>
+        )}
+        <Button
+          className={cn('h-12 font-semibold', onBack ? 'flex-1' : 'w-full')}
+          onClick={onNext}
+          disabled={isAnyEditing}
+        >
+          Siguiente
+        </Button>
+      </div>
     </div>
   )
 }
