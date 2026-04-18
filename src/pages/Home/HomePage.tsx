@@ -10,8 +10,8 @@ export function HomePage() {
   const navigate = useNavigate()
 
   function startNewRound() {
-    const roundId = generateRoundId()
-    navigate(`/${roundId}/setup`)
+    const gameId = generateRoundId()
+    navigate(`/${gameId}/config`)
   }
 
   return (

@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import type { TimeOption } from '../types'
 
 const TIME_OPTIONS = [30, 60, 90] as const
@@ -7,20 +6,12 @@ const TIME_OPTIONS = [30, 60, 90] as const
 type Props = {
   selected: TimeOption
   onSelect: (time: TimeOption) => void
-  onNext: () => void
 }
 
-export function StepTime({ selected, onSelect, onNext }: Props) {
+export function StepTime({ selected, onSelect }: Props) {
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <h2 className="text-3xl font-black tracking-tight text-foreground">
-          Tiempo de partida
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Elige el tiempo en segundos de la partida
-        </p>
-      </div>
+      <p className="text-sm text-muted-foreground">Elige el tiempo para adivinar</p>
 
       <div className="grid grid-cols-3 gap-3">
         {TIME_OPTIONS.map((time) => (
@@ -39,11 +30,6 @@ export function StepTime({ selected, onSelect, onNext }: Props) {
           </button>
         ))}
       </div>
-
-      {/* Navigation — first step, no back */}
-      <Button className="h-12 w-full text-base font-semibold" onClick={onNext}>
-        Siguiente
-      </Button>
     </div>
   )
 }
