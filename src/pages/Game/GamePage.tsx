@@ -34,11 +34,23 @@ export function GamePage() {
   const [teamRounds, setTeamRounds] = useState<WordRecord[][]>(() =>
     teamNames.map(() => [])
   )
+  const [feedbackPhase, setFeedbackPhase] = useState<'none' | 'guessed' | 'skipped'>('none')
 
   const isTimerActive = subView === 'timer'
-  const timeLeft = useCountdown(roundTime, isTimerActive)
+  // Pause (not reset) the countdown during feedback phase
+  const countdownActive = isTimerActive && feedbackPhase === 'none'
+  const timeLeft = useCountdown(roundTime, countdownActive)
   const isExpired = timeLeft <= 0
+  const roundEnded = feedbackPhase !== 'none' || isExpired
   const nextTeamIndex = (currentTeamIndex + 1) % teamNames.length
+
+  const FEEDBACK_BG: Record<'guessed' | 'skipped', string> = {
+    guessed: '#74DA9E',
+    skipped: '#FF6164',
+  }
+  const activeBgColor = isTimerActive
+    ? feedbackPhase !== 'none' ? FEEDBACK_BG[feedbackPhase] : '#7964F9'
+    : undefined
 
   function handleWordSelect(word: string) {
     setSelectedWord(word)
@@ -95,19 +107,29 @@ export function GamePage() {
     </div>
   )
 
+  function triggerFeedback(phase: 'guessed' | 'skipped', timeSpent: number) {
+    setFeedbackPhase(phase)
+    setTimeout(() => {
+      setFeedbackPhase('none')
+      handleRoundEnd(phase === 'guessed', timeSpent)
+    }, 1000)
+  }
+
   const footer =
     subView === 'timer' ? (
       <div className="flex flex-col gap-3">
         <button
-          onClick={() => handleRoundEnd(true, roundTime - timeLeft)}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-green-500 text-base font-semibold text-white transition-colors hover:bg-green-600 active:bg-green-700"
+          disabled={roundEnded}
+          onClick={() => triggerFeedback('guessed', roundTime - timeLeft)}
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-green-500 text-base font-semibold text-white transition-colors hover:bg-green-600 active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Check className="size-5" />
           Adivinado
         </button>
         <button
-          onClick={() => handleRoundEnd(false, 0)}
-          className="flex h-10 w-full items-center justify-center rounded-xl bg-red-500 text-sm font-medium text-white transition-colors hover:bg-red-600 active:bg-red-700"
+          disabled={roundEnded}
+          onClick={() => triggerFeedback('skipped', 0)}
+          className="flex h-10 w-full items-center justify-center rounded-xl bg-red-500 text-sm font-medium text-white transition-colors hover:bg-red-600 active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <X className="size-4" />
           Saltar palabra
@@ -120,7 +142,7 @@ export function GamePage() {
     ) : undefined
 
   return (
-    <GameLayout variant={isTimerActive ? 'timer' : 'default'} header={header} footer={footer}>
+    <GameLayout variant={isTimerActive ? 'timer' : 'default'} backgroundColor={activeBgColor} header={header} footer={footer}>
       {subView === 'select-word' && (
         <SelectWord key={selectKey} onSelect={handleWordSelect} />
       )}

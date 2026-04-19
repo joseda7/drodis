@@ -40,10 +40,10 @@ export function HomePage() {
           >
             Nueva partida
           </Button>
-          <Button variant="outline" className="h-11 w-full">
+          <Button variant="outline" className="h-11 w-full" onClick={() => navigate('/settings')}>
             Configuración
           </Button>
-          <Button variant="ghost" className="h-11 w-full">
+          <Button variant="ghost" className="h-11 w-full" disabled>
             Ayuda
           </Button>
         </div>

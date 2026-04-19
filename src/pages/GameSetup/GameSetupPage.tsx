@@ -8,10 +8,8 @@ import { StepTime } from './components/StepTime'
 import { StepTeams } from './components/StepTeams'
 import { StepReady } from './components/StepReady'
 import { useGame } from '@/context/GameContext'
+import { useSettings } from '@/context/SettingsContext'
 import type { Team, TimeOption, StepId } from './types'
-
-// TODO: replace with settings context once Settings screen exists
-const TIME_NOT_SET_IN_SETTINGS = true
 
 const STEPS_WITH_TIME: StepId[] = ['time', 'teams', 'ready']
 const STEPS_WITHOUT_TIME: StepId[] = ['teams', 'ready']
@@ -20,14 +18,15 @@ export function GameSetupPage() {
   const { gameId } = useParams<{ gameId: string }>()
   const navigate = useNavigate()
   const { teams: gameTeams, setTeams: setGameTeams, resetGame } = useGame()
+  const { settings } = useSettings()
 
-  const steps = TIME_NOT_SET_IN_SETTINGS ? STEPS_WITH_TIME : STEPS_WITHOUT_TIME
+  const steps = settings.applyToAllGames ? STEPS_WITHOUT_TIME : STEPS_WITH_TIME
 
   const [stepIndex, setStepIndex] = useState(0)
   const [teams, setTeams] = useState<Team[]>(
     gameTeams.map((t) => ({ ...t, isEditing: false, draftName: t.name }))
   )
-  const [roundTime, setRoundTime] = useState<TimeOption>(60)
+  const [roundTime, setRoundTime] = useState<TimeOption>(settings.roundTime)
 
   const currentStep = steps[stepIndex]
   const canGoBack = stepIndex > 0
@@ -89,7 +88,7 @@ export function GameSetupPage() {
       {currentStep === 'ready' ? (
         <Button
           className="h-12 flex-1 font-semibold"
-          onClick={() => navigate(`/${gameId}`, { state: { roundTime } })}
+          onClick={() => navigate(`/${gameId}`, { state: { roundTime: settings.applyToAllGames ? settings.roundTime : roundTime } })}
         >
           A dibujar!
         </Button>

@@ -1,19 +1,21 @@
 type Props = {
   variant?: 'default' | 'timer'
+  backgroundColor?: string
   header?: React.ReactNode
   footer?: React.ReactNode
   children: React.ReactNode
 }
 
-export function GameLayout({ variant = 'default', header, footer, children }: Props) {
-  const isTimer = variant === 'timer'
+export function GameLayout({ variant = 'default', backgroundColor, header, footer, children }: Props) {
+  const resolvedBg = backgroundColor ?? (variant === 'timer' ? '#7964F9' : undefined)
+  const showDotPattern = !resolvedBg
 
   return (
     <div
       className="relative flex h-dvh flex-col overflow-hidden transition-colors duration-500"
-      style={{ backgroundColor: isTimer ? '#7964F9' : undefined }}
+      style={{ backgroundColor: resolvedBg }}
     >
-      {!isTimer && (
+      {showDotPattern && (
         <>
           <div className="absolute inset-0 bg-background" />
           <div className="absolute inset-0 bg-dot-pattern" />
