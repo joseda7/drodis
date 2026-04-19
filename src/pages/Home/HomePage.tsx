@@ -1,26 +1,35 @@
 import { useNavigate } from 'react-router-dom'
-import { Pencil } from 'lucide-react'
+import { Pencil, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { GameLayout } from '@/components/layout/GameLayout'
 
-function generateRoundId(): string {
+function generateGameId(): string {
   return Math.floor(1000 + Math.random() * 9000).toString()
 }
 
 export function HomePage() {
   const navigate = useNavigate()
 
-  function startNewRound() {
-    const gameId = generateRoundId()
+  function startNewGame() {
+    const gameId = generateGameId()
     navigate(`/${gameId}/config`)
   }
 
-  return (
-    <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-background">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-dot-pattern" />
+  const header = (
+    <div className="flex justify-end">
+      <button
+        onClick={() => navigate('/settings')}
+        className="flex size-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        aria-label="Configuración"
+      >
+        <Settings className="size-5" />
+      </button>
+    </div>
+  )
 
-      {/* Content */}
-      <div className="relative z-10 flex w-full max-w-xs flex-col items-center gap-14 px-6">
+  return (
+    <GameLayout header={header}>
+      <div className="flex flex-col items-center gap-14">
 
         {/* Logo */}
         <div className="flex flex-col items-center gap-5">
@@ -34,14 +43,8 @@ export function HomePage() {
 
         {/* Actions */}
         <div className="flex w-full flex-col gap-3">
-          <Button
-            className="h-12 w-full text-base font-semibold"
-            onClick={startNewRound}
-          >
+          <Button className="h-12 w-full text-base font-semibold" onClick={startNewGame}>
             Nueva partida
-          </Button>
-          <Button variant="outline" className="h-11 w-full" onClick={() => navigate('/settings')}>
-            Configuración
           </Button>
           <Button variant="ghost" className="h-11 w-full" disabled>
             Ayuda
@@ -49,6 +52,6 @@ export function HomePage() {
         </div>
 
       </div>
-    </div>
+    </GameLayout>
   )
 }
