@@ -1,0 +1,58 @@
+{
+  "words": [
+    {
+      "id": "1",
+      "name": "Elefante",
+      "category": "animal",
+      "translations": { "en": "Elephant", "it": "Elefante" }
+    },
+    {
+      "id": "2",
+      "name": "Guitarra",
+      "category": "objeto",
+      "translations": { "en": "Guitar", "it": "Chitarra" }
+    },
+    {
+      "id": "3",
+      "name": "Castillo",
+      "category": "lugar",
+      "translations": { "en": "Castle", "it": "Castello" }
+    },
+    {
+      "id": "4",
+      "name": "Mariposa",
+      "category": "animal",
+      "translations": { "en": "Butterfly", "it": "Farfalla" }
+    },
+    {
+      "id": "5",
+      "name": "Submarino",
+      "category": "objeto",
+      "translations": { "en": "Submarine", "it": "Sottomarino" }
+    },
+    {
+      "id": "6",
+      "name": "Cohete",
+      "category": "objeto",
+      "translations": { "en": "Rocket", "it": "Razzo" }
+    },
+    {
+      "id": "7",
+      "name": "Volcán",
+      "category": "lugar",
+      "translations": { "en": "Volcano", "it": "Vulcano" }
+    },
+    {
+      "id": "8",
+      "name": "Jirafa",
+      "category": "animal",
+      "translations": { "en": "Giraffe", "it": "Giraffa" }
+    },
+    {
+      "id": "9",
+      "name": "Paraguas",
+      "category": "objeto",
+      "translations": { "en": "Umbrella", "it": "Ombrello" }
+    }
+  ]
+}
