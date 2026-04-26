@@ -24,11 +24,10 @@ export function GeneralConfigPage() {
       <h1 className="text-lg font-bold text-foreground">Configuración</h1>
       <button
         onClick={() => navigate('/')}
-        className="flex items-center gap-1 rounded-md px-1 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75"
         aria-label="Cerrar configuración"
       >
-        Salir
-        <X className="size-3.5" />
+        <X className="size-4" />
       </button>
     </div>
   )

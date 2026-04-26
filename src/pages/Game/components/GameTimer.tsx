@@ -1,15 +1,16 @@
 type Props = {
   word: string
+  category: string
   timeLeft: number
   isExpired: boolean
 }
 
-export function GameTimer({ word, timeLeft, isExpired }: Props) {
+export function GameTimer({ word, category, timeLeft, isExpired }: Props) {
   return (
     <div className="flex flex-col items-center gap-10">
       <div className="flex flex-col items-center gap-1 text-center">
         <p className="text-sm font-medium text-white/60">Dibuja</p>
-        {/* <h2 className="text-4xl font-black tracking-tight text-white">{word}</h2> */}
+        <p className="text-xs font-semibold uppercase tracking-widest text-white/40">{category}</p>
       </div>
 
       <div className="flex flex-col items-center">

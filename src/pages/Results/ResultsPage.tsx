@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Check, Trophy, X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -28,6 +28,17 @@ function fmtPct(ratio: number): string {
   return pct.endsWith('.0') ? `${Math.round(ratio * 100)}%` : `${pct}%`
 }
 
+const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
+
+function getRank(results: TeamData[], idx: number): number {
+  const eff = effectiveness(results[idx])
+  const time = totalTimeSpent(results[idx])
+  return results.filter((t) => {
+    const tEff = effectiveness(t)
+    return tEff > eff || (tEff === eff && totalTimeSpent(t) < time)
+  }).length + 1
+}
+
 function findWinnerIndices(results: TeamData[]): number[] {
   const effValues = results.map(effectiveness)
   const maxEff = Math.max(...effValues)
@@ -45,7 +56,15 @@ export function ResultsPage() {
   const navigate = useNavigate()
   const { resetGame } = useGame()
 
-  const results: TeamData[] = location.state?.results ?? []
+  const rawResults: TeamData[] = location.state?.results ?? []
+
+  // Sort by rank: highest effectiveness first, then lowest time as tiebreaker
+  const results = [...rawResults].sort((a, b) => {
+    const effDiff = effectiveness(b) - effectiveness(a)
+    if (effDiff !== 0) return effDiff
+    return totalTimeSpent(a) - totalTimeSpent(b)
+  })
+
   const winnerIndices = findWinnerIndices(results)
   const isTie = winnerIndices.length > 1
 
@@ -78,6 +97,7 @@ export function ResultsPage() {
           const isWinner = winnerIndices.includes(i)
           const eff = effectiveness(team)
           const time = totalTimeSpent(team)
+          const medal = MEDALS[getRank(results, i)]
 
           return (
             <Card
@@ -89,10 +109,16 @@ export function ResultsPage() {
             >
               <div className="flex items-center justify-between">
                 <span className="font-bold text-foreground">{team.name}</span>
-                {isWinner && !isTie && <Trophy className="size-4 text-primary" />}
+                {medal && <span className="text-xl leading-none">{medal}</span>}
               </div>
 
               <div className="flex gap-6">
+                <div className="flex flex-col">
+                  <span className="text-2xl font-black tabular-nums text-foreground">
+                    {team.rounds.filter((r) => r.guessed).length}/{team.rounds.length}
+                  </span>
+                  <span className="text-xs text-muted-foreground">adivinadas</span>
+                </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-black tabular-nums text-foreground">
                     {fmtPct(eff)}

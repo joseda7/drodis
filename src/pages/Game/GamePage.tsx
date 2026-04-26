@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { GameLayout } from '@/components/layout/GameLayout'
+import { ConfirmModal } from '@/components/ConfirmModal'
 import { SelectWord } from './components/SelectWord'
 import { GameTimer } from './components/GameTimer'
 import { NextTeam } from './components/NextTeam'
@@ -29,12 +30,14 @@ export function GamePage() {
 
   const [subView, setSubView] = useState<SubView>('select-word')
   const [selectedWord, setSelectedWord] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
   const [currentTeamIndex, setCurrentTeamIndex] = useState(0)
   const [selectKey, setSelectKey] = useState(0)
   const [teamRounds, setTeamRounds] = useState<WordRecord[][]>(() =>
     teamNames.map(() => [])
   )
   const [feedbackPhase, setFeedbackPhase] = useState<'none' | 'guessed' | 'skipped'>('none')
+  const [showExitModal, setShowExitModal] = useState(false)
 
   const isTimerActive = subView === 'timer'
   // Pause (not reset) the countdown during feedback phase
@@ -52,8 +55,9 @@ export function GamePage() {
     ? feedbackPhase !== 'none' ? FEEDBACK_BG[feedbackPhase] : '#7964F9'
     : undefined
 
-  function handleWordSelect(word: string) {
-    setSelectedWord(word)
+  function handleWordSelect(name: string, category: string) {
+    setSelectedWord(name)
+    setSelectedCategory(category)
     setSubView('timer')
   }
 
@@ -80,29 +84,37 @@ export function GamePage() {
   function handleNextTeam() {
     setCurrentTeamIndex(nextTeamIndex)
     setSelectedWord('')
+    setSelectedCategory('')
     setSelectKey((k) => k + 1)
     setSubView('select-word')
   }
 
+  const currentPlayerNumber = teamRounds[currentTeamIndex].length + 1
+
   const header = (
     <div className="flex items-center justify-between">
-      <span
-        className={`text-sm font-medium ${
-          isTimerActive ? 'text-white/60' : 'text-muted-foreground'
-        }`}
-      >
-        {teamNames[currentTeamIndex]}
-      </span>
+      <div className="flex flex-col">
+        <span
+          className={`text-sm font-semibold ${
+            isTimerActive ? 'text-white' : 'text-foreground'
+          }`}
+        >
+          {teamNames[currentTeamIndex]}
+        </span>
+        <span
+          className={`text-xs ${
+            isTimerActive ? 'text-white/60' : 'text-muted-foreground'
+          }`}
+        >
+          Dibujante {currentPlayerNumber}
+        </span>
+      </div>
       <button
-        onClick={() => { resetGame(); navigate('/') }}
-        className={`flex items-center gap-1 rounded-md px-1 py-1 text-sm font-medium transition-colors ${
-          isTimerActive
-            ? 'text-white/60 hover:text-white'
-            : 'text-muted-foreground hover:text-foreground'
-        }`}
+        onClick={() => setShowExitModal(true)}
+        className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75"
+        aria-label="Salir de la partida"
       >
-        Salir
-        <X className="size-3.5" />
+        <X className="size-4" />
       </button>
     </div>
   )
@@ -142,16 +154,26 @@ export function GamePage() {
     ) : undefined
 
   return (
+    <>
+    <ConfirmModal
+      open={showExitModal}
+      title="¿Abandonar partida?"
+      description="Si sales ahora perderás todo el progreso de la partida actual."
+      confirmLabel="Abandonar"
+      onConfirm={() => { resetGame(); navigate('/') }}
+      onCancel={() => setShowExitModal(false)}
+    />
     <GameLayout variant={isTimerActive ? 'timer' : 'default'} backgroundColor={activeBgColor} header={header} footer={footer}>
       {subView === 'select-word' && (
         <SelectWord key={selectKey} onSelect={handleWordSelect} />
       )}
       {subView === 'timer' && (
-        <GameTimer word={selectedWord} timeLeft={timeLeft} isExpired={isExpired} />
+        <GameTimer word={selectedWord} category={selectedCategory} timeLeft={timeLeft} isExpired={isExpired} />
       )}
       {subView === 'next-team' && (
         <NextTeam nextTeam={teamNames[nextTeamIndex]} />
       )}
     </GameLayout>
+    </>
   )
 }

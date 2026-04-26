@@ -8,21 +8,21 @@ export type GameTeam = {
 type GameContextValue = {
   teams: GameTeam[]
   setTeams: (teams: GameTeam[]) => void
-  resetGame: () => void
+  resetGame: (initialTeams?: GameTeam[]) => void
 }
 
 const GameContext = createContext<GameContextValue | null>(null)
 
 const DEFAULT_GAME_TEAMS: GameTeam[] = [
-  { name: 'Equipo 1', playerCount: 1 },
-  { name: 'Equipo 2', playerCount: 1 },
+  { name: 'Equipo 1', playerCount: 2 },
+  { name: 'Equipo 2', playerCount: 2 },
 ]
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [teams, setTeams] = useState<GameTeam[]>(DEFAULT_GAME_TEAMS)
 
-  function resetGame() {
-    setTeams(DEFAULT_GAME_TEAMS)
+  function resetGame(initialTeams?: GameTeam[]) {
+    setTeams(initialTeams ?? DEFAULT_GAME_TEAMS)
   }
 
   return (

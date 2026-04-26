@@ -4,7 +4,7 @@ import { fetchWords, pickRandom } from '@/services/wordsService'
 import type { Word } from '@/services/wordsService'
 
 type Props = {
-  onSelect: (word: string) => void
+  onSelect: (name: string, category: string) => void
 }
 
 export function SelectWord({ onSelect }: Props) {
@@ -35,15 +35,16 @@ export function SelectWord({ onSelect }: Props) {
       <div className="flex flex-col gap-3">
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-16 w-full animate-pulse rounded-xl bg-muted" />
+              <div key={i} className="h-20 w-full animate-pulse rounded-xl bg-muted" />
             ))
           : words.map((word) => (
               <button
                 key={word.id}
-                onClick={() => onSelect(word.name)}
-                className="flex h-16 w-full items-center justify-center rounded-xl border border-border bg-card text-base font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 active:scale-[0.98]"
+                onClick={() => onSelect(word.name, word.category)}
+                className="flex h-20 w-full flex-col items-center justify-center gap-1 rounded-xl border border-border bg-card transition-colors hover:border-primary/40 hover:bg-primary/5 active:scale-[0.98]"
               >
-                {word.name}
+                <span className="text-base font-semibold text-foreground">{word.name}</span>
+                <span className="text-xs capitalize text-muted-foreground">{word.category}</span>
               </button>
             ))}
       </div>
