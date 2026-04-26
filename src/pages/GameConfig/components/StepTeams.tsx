@@ -53,19 +53,14 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
+      <p className="text-center text-md">Elige número de jugadores por equipo</p>
       {teams.map((team, idx) => {
         const otherNames = teams.filter((_, i) => i !== idx).map((t) => t.name.toLowerCase())
         const suggestions = history.filter((n) => !otherNames.includes(n.toLowerCase()))
         const isDropdownOpen = openDropdownIdx === idx && team.isEditing && suggestions.length > 0
 
         return (
-          <div key={idx} className="flex flex-col gap-2">
-            {idx > 0 && (
-              <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                vs.
-              </p>
-            )}
-
+          <div key={idx} className="flex flex-col gap-2">   
             <Card className="flex flex-col gap-4 p-4">
               {team.isEditing ? (
                 <div className="relative flex flex-col gap-1">
@@ -115,7 +110,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                     className="flex min-w-0 flex-1 items-center rounded-md text-left transition-colors hover:bg-muted/50 active:bg-muted"
                     aria-label={`Editar nombre de ${team.name}`}
                   >
-                    <span className="truncate text-2xl font-bold text-foreground">
+                    <span className="truncate font-bold text-foreground">
                       {team.name}
                     </span>
                   </button>
@@ -133,7 +128,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                 </div>
               )}
 
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-row items-center gap-5">
                 <label className="text-xs text-muted-foreground"># de jugadores</label>
                 <Input
                   type="number"
@@ -141,7 +136,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                   max={20}
                   value={team.playerCount}
                   onChange={(e) => setPlayerCount(idx, e.target.value)}
-                  className="h-8 text-sm"
+                  className="h-8 w-15 text-sm"
                 />
               </div>
             </Card>

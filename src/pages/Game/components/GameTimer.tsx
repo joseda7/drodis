@@ -5,11 +5,11 @@ type Props = {
   isExpired: boolean
 }
 
-export function GameTimer({ word, category, timeLeft, isExpired }: Props) {
+export function GameTimer({ category, timeLeft, isExpired }: Props) {
   return (
     <div className="flex flex-col items-center gap-10">
       <div className="flex flex-col items-center gap-1 text-center">
-        <p className="text-sm font-medium text-white/60">Dibuja</p>
+        <p className="text-sm font-medium text-white/60">Estas dibujando un</p>
         <p className="text-xs font-semibold uppercase tracking-widest text-white/40">{category}</p>
       </div>
 

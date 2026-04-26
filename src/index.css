@@ -129,6 +129,17 @@
     }
 }
 
+@keyframes countdown-pop {
+  0%   { transform: scale(1.6); opacity: 0; }
+  25%  { transform: scale(1);   opacity: 1; }
+  75%  { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(0.7); opacity: 0; }
+}
+
+@utility animate-countdown-pop {
+  animation: countdown-pop 0.85s ease-out forwards;
+}
+
 @utility bg-dot-pattern {
   background-image: radial-gradient(
     circle,

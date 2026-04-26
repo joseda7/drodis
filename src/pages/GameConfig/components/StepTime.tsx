@@ -11,6 +11,7 @@ type Props = {
 export function StepTime({ selected, onSelect }: Props) {
   return (
     <div className="flex flex-col gap-8">
+      <p className="text-center text-md">Elige el tiempo para adivinar</p>
       <div className="grid grid-cols-3 gap-3">
         {TIME_OPTIONS.map((time) => (
           <button

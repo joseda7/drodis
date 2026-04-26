@@ -73,7 +73,7 @@ export function ResultsPage() {
       className="h-14 w-full text-base font-semibold"
       onClick={() => { resetGame(); navigate('/') }}
     >
-      Nueva partida
+      Volver a jugar
     </Button>
   )
 

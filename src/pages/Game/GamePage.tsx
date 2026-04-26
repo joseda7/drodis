@@ -149,7 +149,7 @@ export function GamePage() {
       </div>
     ) : subView === 'next-team' ? (
       <Button className="h-14 w-full text-base font-semibold" onClick={handleNextTeam}>
-        A dibujar!
+        ¡A jugar!
       </Button>
     ) : undefined
 

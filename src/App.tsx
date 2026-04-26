@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   { path: '/:gameId/config', element: <GameConfigPage /> },
   { path: '/:gameId/results', element: <ResultsPage /> },
   { path: '/:gameId', element: <GamePage /> },
-])
+], { basename: '/drodis/v2' })
 
 export default function App() {
   return (

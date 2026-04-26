@@ -85,17 +85,8 @@ export function GameConfigPage() {
     })
   }
 
-  const STEP_LABELS: Record<StepId, string> = {
-    time: 'Elige el tiempo de dibujo',
-    teams: 'Elige los equipos',
-    ready: '¿Todos preparados?',
-  }
-
   const header = (
-    <div className="flex items-center justify-between gap-4">
-      <span className="text-sm font-medium text-foreground">
-        {STEP_LABELS[currentStep] ?? ''}
-      </span>
+    <div className="flex justify-end">
       <button
         onClick={() => { resetGame(); navigate('/') }}
         className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75"
@@ -127,7 +118,7 @@ export function GameConfigPage() {
         )}
         {currentStep === 'ready' ? (
           <Button className="h-12 flex-1 font-semibold" onClick={handleStartGame}>
-            A dibujar!
+            ¡A jugar!
           </Button>
         ) : (
           <Button
