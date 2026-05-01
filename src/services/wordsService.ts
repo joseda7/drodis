@@ -11,7 +11,7 @@ export type Word = {
 }
 
 // Set VITE_WORDS_URL in .env to point at a real backend endpoint
-const WORDS_URL = import.meta.env.VITE_WORDS_URL ?? '/data/words.json'
+const WORDS_URL = import.meta.env.VITE_WORDS_URL ?? `${import.meta.env.BASE_URL}data/words.json`
 
 let cache: Word[] | null = null
 

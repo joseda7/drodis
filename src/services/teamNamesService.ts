@@ -3,7 +3,7 @@ type TeamNamesData = {
   adjectives: string[]
 }
 
-const TEAM_NAMES_URL = import.meta.env.VITE_TEAM_NAMES_URL ?? '/data/teamNames.json'
+const TEAM_NAMES_URL = import.meta.env.VITE_TEAM_NAMES_URL ?? `${import.meta.env.BASE_URL}data/teamNames.json`
 
 let cache: TeamNamesData | null = null
 

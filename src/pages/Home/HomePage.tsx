@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Pencil, Settings } from 'lucide-react'
+import { Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { GameLayout } from '@/components/layout/GameLayout'
 import { useGame } from '@/context/GameContext'
@@ -24,7 +24,7 @@ export function HomePage() {
     navigate(`/${gameId}/config`)
   }
 
-  const header = (
+  const footer = (
     <div className="flex justify-end">
       <button
         onClick={() => navigate('/settings')}
@@ -37,7 +37,7 @@ export function HomePage() {
   )
 
   return (
-    <GameLayout header={header}>
+    <GameLayout footer={footer}>
       <div className="flex flex-col items-center gap-14">
 
         {/* Logo */}
@@ -48,7 +48,9 @@ export function HomePage() {
           <p className="text-center text-md"> Dibuja mientras tu equipo adivina </p>
         </div>
 
-        <div></div>
+        <div>
+          <p className="text-center text-sm text-muted-foreground"> Un dispositivo, ¡todos juegan! </p>
+        </div>
 
         {/* Actions */}
         <div className="flex w-full flex-col gap-3">

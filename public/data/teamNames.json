@@ -2,12 +2,14 @@
   "subjects": [
     "Corderos", "Faros", "Ángeles", "Hermanos", "Pastores",
     "Guardianes", "Apóstoles", "Ciudadanos", "Panes", "Peces",
-    "Hijos", "Salados", "Sembradores", "Testigos", "Fieles", 
-    "Amigos", "Fructíferos", "Ayudantes"  
+    "Hijos", "Sembradores", "Testigos", "Fieles", 
+    "Amigos", "Frutos", "Cofrades", "Héroes", "Fraternos", 
+    "Soldados", "Colegas", "Exploradores"
   ],
   "adjectives": [
     "Cósmicos", "de Neutrones", "Atómicos", "Estelares", "Lunares",
     "Solares", "Supernova", "Cuánticos", "Infrarrojos", "Nebulares",
-    "Supermasivos", "Pulsantes", "de Luz"
+    "Supermasivos", "Pulsantes", "de Luz", "Supersónicos", 
+    "Electromagnéticos"
   ]
 }
