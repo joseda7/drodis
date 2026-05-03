@@ -4,17 +4,15 @@ import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { GameLayout } from '@/components/layout/GameLayout'
-import { StepTime } from './components/StepTime'
 import { StepTeams } from './components/StepTeams'
 import { StepReady } from './components/StepReady'
 import { useGame } from '@/context/GameContext'
 import { useSettings } from '@/context/SettingsContext'
 import { generateTeamNames } from '@/services/teamNamesService'
 import { addTeamNameToHistory } from '@/services/teamNameHistoryService'
-import type { Team, TimeOption, StepId } from './types'
+import type { Team, StepId } from './types'
 
-const STEPS_WITH_TIME: StepId[] = ['time', 'teams', 'ready']
-const STEPS_WITHOUT_TIME: StepId[] = ['teams', 'ready']
+const STEPS: StepId[] = ['teams', 'ready']
 
 export function GameConfigPage() {
   const { gameId } = useParams<{ gameId: string }>()
@@ -22,13 +20,10 @@ export function GameConfigPage() {
   const { teams: gameTeams, setTeams: setGameTeams, resetGame } = useGame()
   const { settings } = useSettings()
 
-  const steps = settings.applyToAllGames ? STEPS_WITHOUT_TIME : STEPS_WITH_TIME
-
   const [stepIndex, setStepIndex] = useState(0)
   const [teams, setTeams] = useState<Team[]>(
     gameTeams.map((t) => ({ ...t, isEditing: false, draftName: t.name }))
   )
-  const [roundTime, setRoundTime] = useState<TimeOption>(settings.roundTime)
 
   useEffect(() => {
     if (!teams.some((t) => /^Equipo \d+$/.test(t.name))) return
@@ -45,7 +40,7 @@ export function GameConfigPage() {
       .catch(() => {})
   }, [])
 
-  const currentStep = steps[stepIndex]
+  const currentStep = STEPS[stepIndex]
   const canGoBack = stepIndex > 0
   const isAnyEditing = teams.some((t) => t.isEditing)
   const hasDuplicateNames = (() => {
@@ -71,7 +66,7 @@ export function GameConfigPage() {
   }
 
   function goNext() {
-    setStepIndex((i) => Math.min(i + 1, steps.length - 1))
+    setStepIndex((i) => Math.min(i + 1, STEPS.length - 1))
   }
 
   function goBack() {
@@ -81,7 +76,7 @@ export function GameConfigPage() {
   function handleStartGame() {
     teams.forEach((t) => addTeamNameToHistory(t.name))
     navigate(`/${gameId}`, {
-      state: { roundTime: settings.applyToAllGames ? settings.roundTime : roundTime },
+      state: { roundTime: settings.roundTime },
     })
   }
 
@@ -100,7 +95,7 @@ export function GameConfigPage() {
   const footer = (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-center gap-2">
-        {steps.map((_, i) => (
+        {STEPS.map((_, i) => (
           <div
             key={i}
             className={cn(
@@ -135,9 +130,6 @@ export function GameConfigPage() {
 
   return (
     <GameLayout header={header} footer={footer}>
-      {currentStep === 'time' && (
-        <StepTime selected={roundTime} onSelect={setRoundTime} />
-      )}
       {currentStep === 'teams' && (
         <StepTeams teams={teams} onChange={handleTeamsChange} onAddTeam={handleAddTeam} />
       )}

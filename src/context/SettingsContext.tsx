@@ -1,9 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 
-export type TimeOption = 30 | 60 | 90
-
 export type GameSettings = {
-  roundTime: TimeOption
+  roundTime: number
   applyToAllGames: boolean
 }
 

@@ -5,6 +5,4 @@ export type Team = {
   draftName: string
 }
 
-export type TimeOption = 30 | 60 | 90
-
-export type StepId = 'time' | 'teams' | 'ready'
+export type StepId = 'teams' | 'ready'
