@@ -24,7 +24,7 @@ export function GamePage() {
   const { gameId } = useParams<{ gameId: string }>()
   const { teams: gameTeams, resetGame } = useGame()
 
-  const roundTime: number = location.state?.roundTime ?? 60
+  const roundTime: number = location.state?.roundTime ?? 30
   const teamNames = gameTeams.map((t) => t.name)
   const playerCounts = gameTeams.map((t) => t.playerCount)
 
@@ -42,7 +42,7 @@ export function GamePage() {
   const isTimerActive = subView === 'timer'
   // Pause (not reset) the countdown during feedback phase
   const countdownActive = isTimerActive && feedbackPhase === 'none'
-  const timeLeft = useCountdown(roundTime, countdownActive)
+  const timeLeft = useCountdown(roundTime, countdownActive, () => triggerFeedback('skipped', roundTime))
   const isExpired = timeLeft <= 0
   const roundEnded = feedbackPhase !== 'none' || isExpired
   const nextTeamIndex = (currentTeamIndex + 1) % teamNames.length
@@ -93,25 +93,27 @@ export function GamePage() {
 
   const header = (
     <div className="flex items-center justify-between">
-      <div className="flex flex-col">
-        <span
-          className={`text-sm font-semibold ${
-            isTimerActive ? 'text-white' : 'text-foreground'
-          }`}
-        >
-          {teamNames[currentTeamIndex]}
-        </span>
-        <span
-          className={`text-xs ${
-            isTimerActive ? 'text-white/60' : 'text-muted-foreground'
-          }`}
-        >
-          Dibujante {currentPlayerNumber}
-        </span>
-      </div>
+      {subView !== 'next-team' && (
+        <div className="flex flex-col">
+          <span
+            className={`text-sm font-semibold ${
+              isTimerActive ? 'text-white' : 'text-foreground'
+            }`}
+          >
+            {teamNames[currentTeamIndex]}
+          </span>
+          <span
+            className={`text-xs ${
+              isTimerActive ? 'text-white/60' : 'text-muted-foreground'
+            }`}
+          >
+            Dibujante {currentPlayerNumber}
+          </span>
+        </div>
+      )}
       <button
         onClick={() => setShowExitModal(true)}
-        className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75"
+        className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75 ml-auto"
         aria-label="Salir de la partida"
       >
         <X className="size-4" />

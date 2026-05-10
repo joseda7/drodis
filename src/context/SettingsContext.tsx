@@ -6,7 +6,7 @@ export type GameSettings = {
 }
 
 const DEFAULT_SETTINGS: GameSettings = {
-  roundTime: 60,
+  roundTime: 30,
   applyToAllGames: false,
 }
 

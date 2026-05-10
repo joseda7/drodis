@@ -36,10 +36,16 @@ export function SelectWord({ onSelect }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      <p className={`text-sm text-muted-foreground transition-opacity duration-400 ${selected ? 'opacity-0' : ''}`}>
-        * No muestres esta pantalla a tu equipo, ya que adivinarán mientras dibujas.
-      </p>
+    <div className="relative flex flex-col gap-8">
+      <span
+          className={`absolute -top-25 left-10 inline-block rounded-lg bg-yellow-300 px-3 py-1.5 text-xs text-yellow-950 ${selected ? 'opacity-0' : ''}`}
+          style={{
+            transform: 'rotate(-2deg)',
+            boxShadow: '2px 4px 0 rgba(0,0,0,0.12), 0 4px 14px rgba(0,0,0,0.1)',
+          }}
+        >
+         <strong> No muestres esta pantalla a tu equipo, </strong><br /> ya que adivinarán mientras dibujas.
+      </span>
       <div className="flex flex-col gap-3">
         <h2 className={`text-center text-md tracking-tight text-foreground transition-opacity duration-400 ${selected ? 'opacity-0' : ''}`}>
           Elige una palabra a dibujar

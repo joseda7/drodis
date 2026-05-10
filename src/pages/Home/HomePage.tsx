@@ -38,18 +38,25 @@ export function HomePage() {
 
   return (
     <GameLayout footer={footer}>
-      <div className="flex flex-col items-center gap-14">
+      <div className="relative flex flex-col items-center gap-14">
+        
+        {/* Sticker */}  
+        <span
+            className="absolute -top-25 -right-0 inline-block rounded-lg bg-yellow-300 px-3 py-1.5 text-xs text-yellow-950"
+            style={{
+              transform: 'rotate(3deg)',
+              boxShadow: '2px 4px 0 rgba(0,0,0,0.12), 0 4px 14px rgba(0,0,0,0.1)',
+            }}
+          >
+            Un dispositivo, <br /> ¡todos juegan!
+        </span>
 
         {/* Logo */}
-        <div>
-          <h1 className="text-center text-7xl font-black tracking-tighter text-foreground">
+        <div className="pb-16">
+          <h1 className="text-center text-7xl font-black text-foreground">
             Drodis
           </h1>
-          <p className="text-center text-md"> Dibuja mientras tu equipo adivina </p>
-        </div>
-
-        <div>
-          <p className="text-center text-sm text-muted-foreground"> Un dispositivo, ¡todos juegan! </p>
+          <p className="text-center text-md"> Dibuja rápido mientras <br /> tu equipo adivina </p>
         </div>
 
         {/* Actions */}

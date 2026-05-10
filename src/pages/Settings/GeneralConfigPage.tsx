@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { X } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { GameLayout } from '@/components/layout/GameLayout'
@@ -41,7 +40,7 @@ export function GeneralConfigPage() {
 
   function handleSave() {
     const n = parseInt(timeInput, 10)
-    saveSettings({ ...draft, roundTime: isNaN(n) || n <= 0 ? 60 : n })
+    saveSettings({ ...draft, roundTime: isNaN(n) || n <= 0 ? 30 : n })
     navigate('/')
   }
 
@@ -79,31 +78,8 @@ export function GeneralConfigPage() {
             value={timeInput}
             onChange={handleTimeChange}
             className="h-12 text-center text-xl font-bold"
-            placeholder="60"
+            placeholder="30"
           />
-        </div>
-
-        {/* Apply to all games toggle */}
-        <div className="flex items-center justify-between gap-4">
-          <label className="text-sm font-medium text-foreground leading-snug">
-            Aplicar a todas las partidas
-          </label>
-          <button
-            role="switch"
-            aria-checked={draft.applyToAllGames}
-            onClick={() => setDraft({ ...draft, applyToAllGames: !draft.applyToAllGames })}
-            className={cn(
-              'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-              draft.applyToAllGames ? 'bg-primary' : 'bg-muted'
-            )}
-          >
-            <span
-              className={cn(
-                'pointer-events-none inline-block size-5 rounded-full bg-white shadow-md transition-transform duration-200',
-                draft.applyToAllGames ? 'translate-x-5' : 'translate-x-0'
-              )}
-            />
-          </button>
         </div>
 
         {/* Custom words */}
