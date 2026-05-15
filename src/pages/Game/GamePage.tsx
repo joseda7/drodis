@@ -45,7 +45,13 @@ export function GamePage() {
   const timeLeft = useCountdown(roundTime, countdownActive, () => triggerFeedback('skipped', roundTime))
   const isExpired = timeLeft <= 0
   const roundEnded = feedbackPhase !== 'none' || isExpired
-  const nextTeamIndex = (currentTeamIndex + 1) % teamNames.length
+  const nextTeamIndex = (() => {
+    for (let i = 1; i <= teamNames.length; i++) {
+      const idx = (currentTeamIndex + i) % teamNames.length
+      if (teamRounds[idx].length < playerCounts[idx]) return idx
+    }
+    return (currentTeamIndex + 1) % teamNames.length
+  })()
 
   const FEEDBACK_BG: Record<'guessed' | 'skipped', string> = {
     guessed: '#74DA9E',

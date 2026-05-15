@@ -42,7 +42,7 @@ export function HomePage() {
         
         {/* Sticker */}  
         <span
-            className="absolute -top-25 -right-0 inline-block rounded-lg bg-yellow-300 px-3 py-1.5 text-xs text-yellow-950"
+            className="absolute -top-20 -right-0 inline-block rounded-lg bg-yellow-300 px-3 py-1.5 text-xs text-yellow-950"
             style={{
               transform: 'rotate(3deg)',
               boxShadow: '2px 4px 0 rgba(0,0,0,0.12), 0 4px 14px rgba(0,0,0,0.1)',
@@ -53,9 +53,7 @@ export function HomePage() {
 
         {/* Logo */}
         <div className="pb-16">
-          <h1 className="text-center text-7xl font-black text-foreground">
-            Drodis
-          </h1>
+          <img src={`${import.meta.env.BASE_URL}logo-drodis.svg`} alt="Drodis" className="mx-auto" width={250} height='auto' />
           <p className="text-center text-md"> Dibuja rápido mientras <br /> tu equipo adivina </p>
         </div>
 
