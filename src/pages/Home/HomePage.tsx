@@ -24,31 +24,38 @@ export function HomePage() {
     navigate(`/${gameId}/config`)
   }
 
+  const header = (
+    <button
+      onClick={() => navigate('/settings')}
+      className="flex size-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      aria-label="Configuración"
+    >
+      <Settings className="size-5" />
+    </button>
+  )
+
   const footer = (
-    <div className="flex justify-end">
-      <button
-        onClick={() => navigate('/settings')}
-        className="flex size-9 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-        aria-label="Configuración"
-      >
-        <Settings className="size-5" />
-      </button>
+    <div className="flex w-full flex-col gap-3">
+      <Button className="h-12 w-full text-base font-semibold" onClick={startNewGame}>
+        COMENZAR JUEGO
+      </Button>
+      <p className="text-center text-sm text-muted-foreground pb-5">* Prepara tus implementos de dibujo</p>
     </div>
   )
 
   return (
-    <GameLayout footer={footer}>
+    <GameLayout header={header} footer={footer}>
       <div className="relative flex flex-col items-center gap-14">
         
         {/* Sticker */}  
         <span
-            className="absolute -top-20 -right-0 inline-block rounded-lg bg-yellow-300 px-3 py-1.5 text-xs text-yellow-950"
+            className="absolute -top-25 -right-0 inline-block rounded-lg bg-yellow-300 px-3 py-1.5 text-xs text-yellow-950 tracking-tight"
             style={{
               transform: 'rotate(3deg)',
               boxShadow: '2px 4px 0 rgba(0,0,0,0.12), 0 4px 14px rgba(0,0,0,0.1)',
             }}
           >
-            Un dispositivo, <br /> ¡todos juegan!
+           <strong>UN DISPOSITIVO,</strong> <br /> ¡TODOS JUEGAN!
         </span>
 
         {/* Logo */}
@@ -57,16 +64,7 @@ export function HomePage() {
           <p className="text-center text-md"> Dibuja rápido mientras <br /> tu equipo adivina </p>
         </div>
 
-        {/* Actions */}
-        <div className="flex w-full flex-col gap-3">
-          <Button className="h-12 w-full text-base font-semibold" onClick={startNewGame}>
-            Comenzar juego
-          </Button>
-          <p className="text-center text-sm text-muted-foreground">* Prepara tus implementos de dibujo</p>
-          {/* <Button variant="ghost" className="h-11 w-full" disabled>
-            Ayuda
-          </Button> */}
-        </div>
+        
 
       </div>
     </GameLayout>

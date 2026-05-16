@@ -20,7 +20,7 @@ export function ConfirmModal({ open, title, description, confirmLabel, onConfirm
         <p className="mt-2 text-sm text-muted-foreground">{description}</p>
         <div className="mt-6 flex gap-3">
           <Button variant="outline" className="h-11 flex-1" onClick={onCancel}>
-            Cancelar
+            CANCELAR
           </Button>
           <Button
             className="h-11 flex-1 bg-[#FF6164] hover:bg-[#e05255] text-white"

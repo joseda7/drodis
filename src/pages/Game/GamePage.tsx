@@ -102,7 +102,7 @@ export function GamePage() {
       {subView !== 'next-team' && (
         <div className="flex flex-col">
           <span
-            className={`text-sm font-semibold ${
+            className={`text-xs font-semibold uppercase ${
               isTimerActive ? 'text-white' : 'text-foreground'
             }`}
           >
@@ -144,20 +144,20 @@ export function GamePage() {
           className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-green-500 text-base font-semibold text-white transition-colors hover:bg-green-600 active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Check className="size-5" />
-          Adivinado
+          ADIVINADO
         </button>
         <button
           disabled={roundEnded}
           onClick={() => triggerFeedback('skipped', 0)}
-          className="flex h-10 w-full items-center justify-center rounded-xl bg-red-500 text-sm font-medium text-white transition-colors hover:bg-red-600 active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-red-500 text-sm font-medium text-white transition-colors hover:bg-red-600 active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <X className="size-4" />
-          Saltar palabra
+          SALTAR
         </button>
       </div>
     ) : subView === 'next-team' ? (
       <Button className="h-14 w-full text-base font-semibold" onClick={handleNextTeam}>
-        ¡A jugar!
+        ¡A JUGAR!
       </Button>
     ) : undefined
 
@@ -167,7 +167,7 @@ export function GamePage() {
       open={showExitModal}
       title="¿Abandonar partida?"
       description="Si sales ahora perderás todo el progreso de la partida actual."
-      confirmLabel="Abandonar"
+      confirmLabel="ABANDONAR"
       onConfirm={() => { resetGame(); navigate('/') }}
       onCancel={() => setShowExitModal(false)}
     />
@@ -179,7 +179,7 @@ export function GamePage() {
         <GameTimer word={selectedWord} category={selectedCategory} timeLeft={timeLeft} isExpired={isExpired} />
       )}
       {subView === 'next-team' && (
-        <NextTeam nextTeam={teamNames[nextTeamIndex]} />
+        <NextTeam nextTeam={teamNames[nextTeamIndex]} playerNumber={teamRounds[nextTeamIndex].length + 1} />
       )}
     </GameLayout>
     </>

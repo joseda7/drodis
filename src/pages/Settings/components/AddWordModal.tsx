@@ -14,19 +14,23 @@ const CATEGORIES: { value: WordCategory; label: string }[] = [
 
 type Props = {
   open: boolean
-  onAdd: (name: string, category: WordCategory) => void
+  onAdd: (name: string, category: WordCategory, translations: { en: string | null; it: string | null }) => void
   onClose: () => void
 }
 
 export function AddWordModal({ open, onAdd, onClose }: Props) {
   const [name, setName] = useState('')
   const [category, setCategory] = useState<WordCategory | ''>('')
+  const [translationEn, setTranslationEn] = useState('')
+  const [translationIt, setTranslationIt] = useState('')
   const [existingNames, setExistingNames] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     if (!open) return
     setName('')
     setCategory('')
+    setTranslationEn('')
+    setTranslationIt('')
     fetchWords()
       .then((words) => setExistingNames(new Set(words.map((w) => w.name.toLowerCase().trim()))))
       .catch(() => {})
@@ -40,7 +44,10 @@ export function AddWordModal({ open, onAdd, onClose }: Props) {
 
   function handleSubmit() {
     if (!canCreate) return
-    onAdd(name.trim(), category as WordCategory)
+    onAdd(name.trim(), category as WordCategory, {
+      en: translationEn.trim() || null,
+      it: translationIt.trim() || null,
+    })
   }
 
   return (
@@ -77,13 +84,35 @@ export function AddWordModal({ open, onAdd, onClose }: Props) {
               ))}
             </select>
           </div>
+          <div className="flex gap-3">
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label className="text-sm font-medium text-foreground">EN <span className="text-muted-foreground font-normal">(opcional)</span></label>
+              <Input
+                type="text"
+                value={translationEn}
+                onChange={(e) => setTranslationEn(e.target.value)}
+                placeholder="Ej. Ladder"
+                className="h-10"
+              />
+            </div>
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label className="text-sm font-medium text-foreground">IT <span className="text-muted-foreground font-normal">(opcional)</span></label>
+              <Input
+                type="text"
+                value={translationIt}
+                onChange={(e) => setTranslationIt(e.target.value)}
+                placeholder="Ej. Scala"
+                className="h-10"
+              />
+            </div>
+          </div>
         </div>
         <div className="mt-6 flex gap-3">
           <Button variant="outline" className="h-11 flex-1" onClick={onClose}>
-            Cancelar
+            CANCELAR
           </Button>
           <Button className="h-11 flex-1" onClick={handleSubmit} disabled={!canCreate}>
-            Crear
+            AÑADIR
           </Button>
         </div>
       </div>

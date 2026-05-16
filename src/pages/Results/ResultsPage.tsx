@@ -85,7 +85,7 @@ export function ResultsPage() {
           <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
             {isTie ? '¡Empate!' : '¡Ganador!'}
           </p>
-          <h1 className="text-4xl font-black tracking-tight text-foreground">
+          <h1 className="text-4xl font-black tracking-tight text-foreground uppercase">
             {isTie
               ? winnerIndices.map((i) => results[i].name).join(' y ')
               : results[winnerIndices[0]]?.name}
@@ -108,7 +108,7 @@ export function ResultsPage() {
               )}
             >
               <div className="flex items-center justify-between">
-                <span className="font-bold text-foreground">{team.name}</span>
+                <span className="font-bold text-foreground uppercase">{team.name}</span>
                 {medal && <span className="text-xl leading-none">{medal}</span>}
               </div>
 

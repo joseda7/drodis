@@ -32,8 +32,8 @@ export function GeneralConfigPage() {
     setCustomWords(getCustomWords())
   }
 
-  function handleWordAdd(name: string, category: WordCategory) {
-    addCustomWord(name, category)
+  function handleWordAdd(name: string, category: WordCategory, translations: { en: string | null; it: string | null }) {
+    addCustomWord(name, category, translations)
     setCustomWords(getCustomWords())
     setAddModalOpen(false)
   }
@@ -46,7 +46,7 @@ export function GeneralConfigPage() {
 
   const header = (
     <div className="flex items-center justify-between">
-      <h1 className="text-lg font-bold text-foreground">Configuración</h1>
+      <h1 className="text-md font-bold text-foreground">CONFIGURACIÓN</h1>
       <button
         onClick={() => navigate('/')}
         className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75"
@@ -59,7 +59,7 @@ export function GeneralConfigPage() {
 
   const footer = (
     <Button className="h-14 w-full text-base font-semibold" onClick={handleSave}>
-      Guardar
+      GUARDAR
     </Button>
   )
 
@@ -87,7 +87,7 @@ export function GeneralConfigPage() {
           <div className="flex flex-col gap-0.5">
             <span className="text-sm font-medium text-foreground">Mis palabras</span>
             <p className="text-xs text-muted-foreground">
-              Palabras extra que se añadirán a las partidas
+              Palabras extra que se agregarán a las partidas
             </p>
           </div>
           <div className="rounded-xl border border-border bg-card p-3 flex flex-col gap-3">

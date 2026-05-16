@@ -52,7 +52,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-center text-md">Elige número de jugadores por equipo</p>
+      <p className="text-center text-md pb-4">Elige equipos y número de jugadores</p>
       {teams.map((team, idx) => (
           <div key={idx} className="flex flex-col gap-2">
             <Card className="flex flex-col gap-4 p-4">
@@ -87,7 +87,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                     className="flex min-w-0 flex-1 items-center rounded-md text-left transition-colors hover:bg-muted/50 active:bg-muted"
                     aria-label={`Editar nombre de ${team.name}`}
                   >
-                    <span className="truncate font-bold text-foreground">
+                    <span className="truncate font-bold text-foreground uppercase">
                       {team.name}
                     </span>
                   </button>

@@ -9,7 +9,7 @@ import { StepReady } from './components/StepReady'
 import { useGame } from '@/context/GameContext'
 import { useSettings } from '@/context/SettingsContext'
 import { generateTeamNames } from '@/services/teamNamesService'
-import { addTeamNameToHistory } from '@/services/teamNameHistoryService'
+// import { addTeamNameToHistory } from '@/services/teamNameHistoryService'
 import type { Team, StepId } from './types'
 
 const STEPS: StepId[] = ['teams', 'ready']
@@ -74,7 +74,7 @@ export function GameConfigPage() {
   }
 
   function handleStartGame() {
-    teams.forEach((t) => addTeamNameToHistory(t.name))
+    // teams.forEach((t) => addTeamNameToHistory(t.name))
     navigate(`/${gameId}`, {
       state: { roundTime: settings.roundTime },
     })
@@ -108,12 +108,12 @@ export function GameConfigPage() {
       <div className="flex gap-3">
         {canGoBack && (
           <Button variant="outline" className="h-12 flex-1" onClick={goBack}>
-            Atrás
+            ATRÁS
           </Button>
         )}
         {currentStep === 'ready' ? (
           <Button className="h-12 flex-1 font-semibold" onClick={handleStartGame}>
-            ¡A jugar!
+            ¡A JUGAR!
           </Button>
         ) : (
           <Button
@@ -121,7 +121,7 @@ export function GameConfigPage() {
             onClick={goNext}
             disabled={currentStep === 'teams' && (isAnyEditing || hasDuplicateNames)}
           >
-            Siguiente
+            SIGUIENTE
           </Button>
         )}
       </div>
