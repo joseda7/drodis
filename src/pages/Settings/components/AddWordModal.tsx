@@ -84,6 +84,8 @@ export function AddWordModal({ open, onAdd, onClose }: Props) {
               ))}
             </select>
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium text-foreground">Traducción</label>
           <div className="flex gap-3">
             <div className="flex flex-1 flex-col gap-1.5">
               <label className="text-sm font-medium text-foreground">EN <span className="text-muted-foreground font-normal">(opcional)</span></label>
@@ -105,6 +107,7 @@ export function AddWordModal({ open, onAdd, onClose }: Props) {
                 className="h-10"
               />
             </div>
+          </div>
           </div>
         </div>
         <div className="mt-6 flex gap-3">

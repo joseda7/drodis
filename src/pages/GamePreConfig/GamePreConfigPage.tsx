@@ -14,7 +14,7 @@ import type { Team, StepId } from './types'
 
 const STEPS: StepId[] = ['teams', 'ready']
 
-export function GameConfigPage() {
+export function GamePreConfigPage() {
   const { gameId } = useParams<{ gameId: string }>()
   const navigate = useNavigate()
   const { teams: gameTeams, setTeams: setGameTeams, resetGame } = useGame()
@@ -107,17 +107,17 @@ export function GameConfigPage() {
       </div>
       <div className="flex gap-3">
         {canGoBack && (
-          <Button variant="outline" className="h-12 flex-1" onClick={goBack}>
+          <Button variant="outline" className="h-12 flex-1 text-xl" onClick={goBack}>
             ATRÁS
           </Button>
         )}
         {currentStep === 'ready' ? (
-          <Button className="h-12 flex-1 font-semibold" onClick={handleStartGame}>
+          <Button className="h-12 flex-1 text-xl font-bold" onClick={handleStartGame}>
             ¡A JUGAR!
           </Button>
         ) : (
           <Button
-            className={cn('h-12 font-semibold', canGoBack ? 'flex-1' : 'w-full')}
+            className={cn('h-12 text-xl font-bold', canGoBack ? 'flex-1' : 'w-full')}
             onClick={goNext}
             disabled={currentStep === 'teams' && (isAnyEditing || hasDuplicateNames)}
           >

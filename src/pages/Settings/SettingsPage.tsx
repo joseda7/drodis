@@ -10,7 +10,7 @@ import { getCustomWords, addCustomWord, removeCustomWord } from '@/services/cust
 import type { CustomWord } from '@/services/customWordsService'
 import type { WordCategory } from '@/services/wordsService'
 
-export function GeneralConfigPage() {
+export function SettingsPage() {
   const navigate = useNavigate()
   const { settings, saveSettings } = useSettings()
   const [draft, setDraft] = useState(settings)
@@ -58,7 +58,7 @@ export function GeneralConfigPage() {
   )
 
   const footer = (
-    <Button className="h-14 w-full text-base font-semibold" onClick={handleSave}>
+    <Button className="h-14 w-full text-2xl font-bold" onClick={handleSave}>
       GUARDAR
     </Button>
   )

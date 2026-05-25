@@ -36,7 +36,7 @@ export function HomePage() {
 
   const footer = (
     <div className="flex w-full flex-col gap-3">
-      <Button className="h-12 w-full text-base font-semibold" onClick={startNewGame}>
+      <Button className="h-12 w-full text-xl font-bold" onClick={startNewGame}>
         COMENZAR JUEGO
       </Button>
       <p className="text-center text-sm text-muted-foreground pb-5">* Prepara tus implementos de dibujo</p>
@@ -59,9 +59,12 @@ export function HomePage() {
         </span>
 
         {/* Logo */}
-        <div className="pb-16">
-          <img src={`${import.meta.env.BASE_URL}logo-drodis.svg`} alt="Drodis" className="mx-auto" width={250} height='auto' />
-          <p className="text-center text-md"> Dibuja rápido mientras <br /> tu equipo adivina </p>
+        <div className="flex flex-col items-center pb-16">
+          <img src={`${import.meta.env.BASE_URL}logo-drodis.svg`} alt="Drodis" width={200} height='auto' />
+          <div className="relative inline-block">
+            <p className="text-center text-md"> Dibuja rápido mientras <br /> tu equipo adivina </p>
+            <img src={`${import.meta.env.BASE_URL}doodle-1.svg`} alt="" className="absolute -bottom-6 -right-9 w-[50px] -rotate-10 pointer-events-none" />
+          </div>
         </div>
 
         

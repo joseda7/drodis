@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Check, X } from 'lucide-react'
+import { Check, Pause, Play, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { GameLayout } from '@/components/layout/GameLayout'
 import { ConfirmModal } from '@/components/ConfirmModal'
@@ -9,6 +9,8 @@ import { GameTimer } from './components/GameTimer'
 import { NextTeam } from './components/NextTeam'
 import { useGame } from '@/context/GameContext'
 import { useCountdown } from '@/hooks/useCountdown'
+import { useBeepSound } from '@/hooks/useBeepSound'
+import { useTickerSound } from '@/hooks/useTickerSound'
 
 type SubView = 'select-word' | 'timer' | 'next-team'
 
@@ -38,13 +40,21 @@ export function GamePage() {
   )
   const [feedbackPhase, setFeedbackPhase] = useState<'none' | 'guessed' | 'skipped'>('none')
   const [showExitModal, setShowExitModal] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
 
   const isTimerActive = subView === 'timer'
-  // Pause (not reset) the countdown during feedback phase
-  const countdownActive = isTimerActive && feedbackPhase === 'none'
-  const timeLeft = useCountdown(roundTime, countdownActive, () => triggerFeedback('skipped', roundTime))
+  // Pause (not reset) the countdown during feedback phase or manual pause
+  const countdownActive = isTimerActive && feedbackPhase === 'none' && !isPaused && !showExitModal
+  const timeLeft = useCountdown(roundTime, countdownActive, () => triggerFeedback('skipped', roundTime), selectKey)
   const isExpired = timeLeft <= 0
   const roundEnded = feedbackPhase !== 'none' || isExpired
+
+  const playBeep = useBeepSound()
+  useEffect(() => {
+    if (!countdownActive || timeLeft <= 0 || timeLeft > 5) return
+    playBeep()
+  }, [timeLeft])
+  useTickerSound(timeLeft, countdownActive)
   const nextTeamIndex = (() => {
     for (let i = 1; i <= teamNames.length; i++) {
       const idx = (currentTeamIndex + i) % teamNames.length
@@ -92,6 +102,7 @@ export function GamePage() {
     setSelectedWord('')
     setSelectedCategory('')
     setSelectKey((k) => k + 1)
+    setIsPaused(false)
     setSubView('select-word')
   }
 
@@ -117,13 +128,24 @@ export function GamePage() {
           </span>
         </div>
       )}
-      <button
-        onClick={() => setShowExitModal(true)}
-        className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75 ml-auto"
-        aria-label="Salir de la partida"
-      >
-        <X className="size-4" />
-      </button>
+      <div className="ml-auto flex flex-col items-end gap-2">
+        <button
+          onClick={() => setShowExitModal(true)}
+          className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity hover:opacity-90 active:opacity-75"
+          aria-label="Salir de la partida"
+        >
+          <X className="size-4" />
+        </button>
+        {isTimerActive && !roundEnded && (
+          <button
+            onClick={() => setIsPaused((p) => !p)}
+            className={`flex size-8 shrink-0 items-center justify-center rounded-lg text-white transition-opacity hover:opacity-90 active:opacity-75 ${isPaused ? 'bg-[#74DA9E]' : 'bg-[#FF6164]'}`}
+            aria-label={isPaused ? 'Reanudar' : 'Pausar'}
+          >
+            {isPaused ? <Play className="size-4" /> : <Pause className="size-4" />}
+          </button>
+        )}
+      </div>
     </div>
   )
 
@@ -141,7 +163,7 @@ export function GamePage() {
         <button
           disabled={roundEnded}
           onClick={() => triggerFeedback('guessed', roundTime - timeLeft)}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-green-500 text-base font-semibold text-white transition-colors hover:bg-green-600 active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-green-500 text-2xl font-bold text-white transition-colors hover:bg-green-600 active:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Check className="size-5" />
           ADIVINADO
@@ -149,14 +171,14 @@ export function GamePage() {
         <button
           disabled={roundEnded}
           onClick={() => triggerFeedback('skipped', 0)}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-red-500 text-sm font-medium text-white transition-colors hover:bg-red-600 active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-red-500 text-base font-medium text-white transition-colors hover:bg-red-600 active:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <X className="size-4" />
           SALTAR
         </button>
       </div>
     ) : subView === 'next-team' ? (
-      <Button className="h-14 w-full text-base font-semibold" onClick={handleNextTeam}>
+      <Button className="h-14 w-full text-2xl font-bold" onClick={handleNextTeam}>
         ¡A JUGAR!
       </Button>
     ) : undefined
@@ -171,7 +193,7 @@ export function GamePage() {
       onConfirm={() => { resetGame(); navigate('/') }}
       onCancel={() => setShowExitModal(false)}
     />
-    <GameLayout variant={isTimerActive ? 'timer' : 'default'} backgroundColor={activeBgColor} header={header} footer={footer}>
+    <GameLayout variant={isTimerActive ? 'timer' : 'default'} backgroundColor={activeBgColor} header={header} footer={footer} overlay={isPaused && isTimerActive}>
       {subView === 'select-word' && (
         <SelectWord key={selectKey} onSelect={handleWordSelect} />
       )}

@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
 
-export function useCountdown(duration: number, active: boolean, onExpire?: () => void): number {
+export function useCountdown(duration: number, active: boolean, onExpire?: () => void, resetKey?: number): number {
   const [timeLeft, setTimeLeft] = useState(duration)
+
+  // Reset only when a new round starts (resetKey changes), not on every pause/resume
+  useEffect(() => {
+    setTimeLeft(duration)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetKey])
 
   useEffect(() => {
     if (!active) return
-    setTimeLeft(duration)
     const id = setInterval(() => {
       setTimeLeft((t) => {
         if (t <= 1) { clearInterval(id); onExpire?.(); return 0 }
@@ -13,7 +18,7 @@ export function useCountdown(duration: number, active: boolean, onExpire?: () =>
       })
     }, 1000)
     return () => clearInterval(id)
-  }, [active, duration])
+  }, [active])
 
   return timeLeft
 }

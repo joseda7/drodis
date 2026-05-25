@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Languages } from 'lucide-react'
 import { fetchWords, pickRandom } from '@/services/wordsService'
 import type { Word } from '@/services/wordsService'
+import { useBeepSound } from '@/hooks/useBeepSound'
 
 type Props = {
   onSelect: (name: string, category: string) => void
@@ -13,6 +14,7 @@ export function SelectWord({ onSelect }: Props) {
   const [selected, setSelected] = useState<Word | null>(null)
   const [countdown, setCountdown] = useState<number | null>(null)
   const [tooltipId, setTooltipId] = useState<string | null>(null)
+  const playBeep = useBeepSound()
 
   useEffect(() => {
     fetchWords()
@@ -27,6 +29,7 @@ export function SelectWord({ onSelect }: Props) {
       onSelect(selected!.name, selected!.category)
       return
     }
+    playBeep()
     const t = setTimeout(() => setCountdown((c) => c! - 1), 1000)
     return () => clearTimeout(t)
   }, [countdown])
@@ -46,7 +49,7 @@ export function SelectWord({ onSelect }: Props) {
             boxShadow: '2px 4px 0 rgba(0,0,0,0.12), 0 4px 14px rgba(0,0,0,0.1)',
           }}
         >
-         <strong> No muestres esta pantalla a tu equipo, </strong><br /> ya que adivinarán mientras dibujas.
+         <strong> NO muestres esta pantalla a tu equipo, </strong><br /> ya que adivinarán mientras la dibujas.
       </span>
       <div className="flex flex-col gap-3">
         <h2 className={`text-center text-md text-foreground transition-opacity duration-400 ${selected ? 'opacity-0' : ''}`}>
@@ -76,7 +79,7 @@ export function SelectWord({ onSelect }: Props) {
                       }`}
                   >
                     <div className={`flex flex-col gap-1 ${isSelected ? 'items-start' : 'items-center'}`}>
-                      <span className="text-base font-semibold text-foreground">{word.name}</span>
+                      <span className="text-lg font-semibold text-foreground uppercase">{word.name}</span>
                       <span className="text-xs capitalize text-muted-foreground">{word.category}</span>
                     </div>
 

@@ -70,10 +70,10 @@ export function ResultsPage() {
 
   const footer = (
     <Button
-      className="h-14 w-full text-base font-semibold"
+      className="h-14 w-full text-2xl font-bold"
       onClick={() => { resetGame(); navigate('/') }}
     >
-      Volver a jugar
+      VOLVER AL INICIO
     </Button>
   )
 
@@ -85,7 +85,7 @@ export function ResultsPage() {
           <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
             {isTie ? '¡Empate!' : '¡Ganador!'}
           </p>
-          <h1 className="text-4xl font-black tracking-tight text-foreground uppercase">
+          <h1 className="text-3xl font-black tracking-tight text-foreground uppercase">
             {isTie
               ? winnerIndices.map((i) => results[i].name).join(' y ')
               : results[winnerIndices[0]]?.name}
@@ -114,19 +114,19 @@ export function ResultsPage() {
 
               <div className="flex gap-6">
                 <div className="flex flex-col">
-                  <span className="text-2xl font-black tabular-nums text-foreground">
+                  <span className="text-lg font-black tabular-nums text-foreground">
                     {team.rounds.filter((r) => r.guessed).length}/{team.rounds.length}
                   </span>
                   <span className="text-xs text-muted-foreground">adivinadas</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-2xl font-black tabular-nums text-foreground">
+                  <span className="text-lg font-black tabular-nums text-foreground">
                     {fmtPct(eff)}
                   </span>
                   <span className="text-xs text-muted-foreground">efectividad</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-2xl font-black tabular-nums text-foreground">
+                  <span className="text-lg font-black tabular-nums text-foreground">
                     {time}s
                   </span>
                   <span className="text-xs text-muted-foreground">tiempo total</span>

@@ -52,10 +52,13 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-center text-md pb-4">Elige equipos y número de jugadores</p>
+      <p className="text-center text-md pb-4">Elige los equipos y su número de jugadores</p>
       {teams.map((team, idx) => (
           <div key={idx} className="flex flex-col gap-2">
-            <Card className="flex flex-col gap-4 p-4">
+            <Card className="relative flex flex-col gap-2 p-4">
+              <span className="text-xs text-muted-foreground">
+                Equipo {idx + 1}
+              </span>
               {team.isEditing ? (
                 <div className="flex items-center gap-2">
                   <Input
@@ -69,7 +72,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                     onBlur={() => confirmEdit(idx)}
                     autoFocus
                     maxLength={20}
-                    className="h-9 text-base font-semibold"
+                    className="h-11 text-lg font-bold uppercase"
                   />
                   <Button
                     variant="ghost"
@@ -87,7 +90,7 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                     className="flex min-w-0 flex-1 items-center rounded-md text-left transition-colors hover:bg-muted/50 active:bg-muted"
                     aria-label={`Editar nombre de ${team.name}`}
                   >
-                    <span className="truncate font-bold text-foreground uppercase">
+                    <span className="truncate text-lg font-bold text-foreground uppercase">
                       {team.name}
                     </span>
                   </button>
@@ -105,8 +108,8 @@ export function StepTeams({ teams, onChange, onAddTeam }: Props) {
                 </div>
               )}
 
-              <div className="flex flex-row items-center gap-3">
-                <label className="text-xs text-muted-foreground"># de jugadores</label>
+              <div className="flex flex-row items-center justify-between">
+                <label className="text-sm text-muted-foreground"># de jugadores</label>
                 <div className="flex items-center gap-1">
                   <Button
                     variant="outline"
